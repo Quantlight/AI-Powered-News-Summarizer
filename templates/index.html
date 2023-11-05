@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css'>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js'></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container" id="navbar-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/3208/3208892.png" alt="News Icon" width="32" height="32">
+            <a class="navbar-brand" href="/">News Summarizer</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+
+                <div id="navabar-buttons" class="btn-group" role="group" aria-label="Theme Buttons">
+                    
+                    <form method="get" action="/summarize">  <!-- Is this part correct? -->
+                        <button id="summarize-button" type="submit" class="btn waves-effect waves-light">Summarize</button>
+                    </form>
+                
+                    <button id="theme-toggle" class="btn waves-effect waves-light">Toggle Theme</button>
+                    <button id="theme-light" class="btn waves-effect waves-light">Light Theme</button>
+                    <button id="theme-dark" class="btn waves-effect waves-light">Dark Theme</button>
+                    <button id="theme-custom" class="btn waves-effect waves-light">Custom Theme</button>
+                
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container" id="container">
+        
+        <h1 id="project-title" class="center-align">AI-Powered News Summarizer</h1>
+        <form method="POST" action="/" style="z-index: 999; position: relative;">
+            <select name="sortorder" style="width: 200px; height: 50px; color: black;">
+                <option value="" disabled selected>Choose order</option>
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
+            </select>
+            <input type="submit" value="Sort" class="btn waves-effect waves-light"/>
+        </form>
+        
+    <div class="my-custom-row">
+        {% for row in data %}
+            <div class="col s12">
+                <div class="card horizontal">
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span id="article-title" class="card-title">{{ row['title'] }}</span>
+                            <p style="text-align: right; font-style: italic;"><span class="formatted-date">{{ formatDateTime(row['date']) }}</span></p>
+                            <p id="article-summary">Summary {{ row['summarized_content'] | safe }}</p><br>
+                            <!-- <p id="article-content">Actual Content: {{ row['full_content'] | safe }}</p><br> -->
+                            <p id="article-link">Link: <a href="{{ row['link'] }}" target="_blank">{{ row['link'] }}</a></p><br>
+                            <p id="article-author">By {{ row['author'] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script> 
+</body>
+</html>
