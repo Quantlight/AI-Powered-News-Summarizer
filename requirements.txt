@@ -7,3 +7,4 @@ article-parser==1.6.0
 flask==3.0.0
 Markdown2==2.4.10
 parse==1.19.0
+python-dotenv==1.0.0
