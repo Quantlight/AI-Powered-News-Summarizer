@@ -6,18 +6,12 @@ Get your free Trial API key from https://cohere.com/ and put it in the file summ
 
 This repository contains a Python Flask web application for fetching and summarizing news articles from RSS feeds.
 
-Table of Contents
-
+Table of Contents:
 - Features
-
 - Getting Started
-
 - Usage
-
 - Dependencies
-
 - Contributing
-
 - License
 
 ## Features
@@ -38,7 +32,7 @@ Table of Contents
 
 To run this application locally, follow these steps:
 
-Clone this repository to your local machine or download the zip
+Clone this repository to your local machine or download the zip file and extract it to your preferred location.
 
 ``` bash
 git clone https://github.com/Quantlight/AI-Powered-News-Summarizer
@@ -50,7 +44,14 @@ Install the required Python libraries by running:
 pip install -r requirements.txt
 ```
 
-Obtain a Cohere API key and replace "API KEY" in the code with your actual API key.
+Create .env file in root directory of your project folder
+and add this 
+```
+API-KEY=YOUR-API-KEY
+```
+
+Obtain a Cohere API key and replace "YOUR-API-KEY" in the code with your actual API key.
+
 Prepare an OPML file (e.g., "news_links.opml") with the RSS feed URLs you want to fetch articles from.
 Run the Flask application:
 
