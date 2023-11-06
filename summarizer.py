@@ -16,18 +16,22 @@ import os
 # Loading dotenv file
 load_dotenv() 
 
+    # Read the .opml file which is the standard format for files containing RSS Links.
 def read_opml_file():
     with open("news-links.opml", "r", encoding='utf-8') as opml_file:
         feed_urls = [outline.get("xmlUrl") for outline in BeautifulSoup(opml_file.read(), "xml").find_all("outline") if outline.get("xmlUrl")]
     return feed_urls
 
-def ai_summarizer(user_text):
+def ai_summarizer(news_info):
     # Get Your own key from Cohere Website 
     cohere_api_key = os.getenv("API-KEY")
     co = cohere.Client(cohere_api_key)
-    main_post = "Summarize the given Information in points in Markdown format only, its an Order."
-    text = main_post + " " + user_text
 
+    # Initial prompt sended combined with recieved news information  
+    initial_prompt = "Summarize the given Information in points in Markdown format only, its an Order."
+    text = initial_prompt + " " + news_info
+
+    # Requesting AI to summarize the Information and defining the maximun amount of tokens to be recieved.
     if text:
         summary = co.generate(model='command', prompt=text, max_tokens=400)
         # print(summary.generations[0].text)
@@ -42,7 +46,7 @@ def sqlite_data(post):
     cursor.execute('''CREATE TABLE IF NOT EXISTS rss_feed
                     (date TEXT, title TEXT, full_content TEXT, summarized_content TEXT, link TEXT, author TEXT)''')
 
-    # Check if a record with the same title and link already exists in the database
+    # Check if a record with the same title and link already exists in the database.
     cursor.execute("SELECT * FROM rss_feed WHERE title = ? AND link = ?",
                    (post['title'], post['link']))
     existing_record = cursor.fetchone()
@@ -50,6 +54,7 @@ def sqlite_data(post):
     if existing_record:
         print("Duplicate data. Not saved.")
     else:
+        # If there is no existing record then save it to the file.
         cursor.execute("INSERT INTO rss_feed VALUES (?, ?, ?, ?, ?, ?)",
                        (post['published'], post['title'], post['full_content'], post['summarized_content'], post['link'], post['author']))
         conn.commit()
@@ -62,8 +67,9 @@ def sort_data_by_date(data_list):
     sorted_data = sorted(data_list, key=lambda x: x['date'], reverse=True)
     return sorted_data
 
-def remove_blank_lines(text):
-    return re.sub(r'^\s*\n', '', text, flags=re.MULTILINE)
+    # Clean the data removing whitespaces and all the blank lines. 
+def remove_blank_lines(_full_content):
+    return re.sub(r'^\s*\n', '', _full_content, flags=re.MULTILINE)
 
 def article_info(url):
     headers = {
@@ -71,13 +77,18 @@ def article_info(url):
     }
 
     try:
+        # Requestion information from website by providing url and headers using requests.
         response = requests.get(url, headers=headers, timeout=5)
         response.raise_for_status()
         html = response.text
+        # Sending the given html to the article_parser to extract only useful information and convert it into markdown format. 
         title, content = article_parser.parse(url=url, html=html, output='markdown', timeout=5)
         return content
+    
+    # Handle all the errors while visiting the website.
     except requests.exceptions.RequestException as e:
         print(f"Error fetching the article: {e}")
+        # Return nothing.
         return ""
 
 def parse_rss_feed(url):
@@ -96,9 +107,12 @@ def parse_rss_feed(url):
             print("Post already exists. Skipping.")
             print("------------------------------------------------------------")
             posts.append(existing_post)
+
         else:
+            # Saving the information recieved from article_parse in full_content
             full_content = article_info(post_url)
             full_content = remove_blank_lines(full_content)
+            # Sending that Informaton to AI model to summarize and save to summarized_content
             summarized_content = ai_summarizer(full_content)
             if 'published' in post:
                 published_date = parse(post.published)
@@ -112,6 +126,7 @@ def parse_rss_feed(url):
                 # Handle the case where author information is missing
                 author = "Not mentioned" 
 
+            # Structure the data in dictionary format.
             post_data = {
                 'title': post.title,
                 'author': author,
@@ -150,7 +165,7 @@ def check_existing_post(title, link):
 
 app = Flask(__name__)
 
-# Function to fetch data from the database
+# Function to fetch data from the database for web.
 def get_data(sort_order):
     data_list = []
     sorted_data_by_date = []  
@@ -194,6 +209,7 @@ def format_datetime(dateTimeString):
     formatted_date = date.strftime("%A, %B %d, %Y %I:%M %p")
     return formatted_date
 
+# This sunction run when the code is executed and creates a html website at local Host.
 @app.route('/', methods=['GET', 'POST'])
 def index():
     sort_order = 'desc'
@@ -203,6 +219,7 @@ def index():
     
     return render_template('index.html', data=data, formatDateTime=format_datetime)
 
+# When summarized button is clicked then this function starts.
 @app.route('/summarize', methods=['GET'])
 def main():
     urls = read_opml_file()
