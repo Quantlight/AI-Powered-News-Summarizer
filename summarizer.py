@@ -10,6 +10,11 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect
 import sqlite3
 import markdown2
+from dotenv import load_dotenv
+import os
+
+# Loading dotenv file
+load_dotenv() 
 
 def read_opml_file():
     with open("news-links.opml", "r", encoding='utf-8') as opml_file:
@@ -18,7 +23,7 @@ def read_opml_file():
 
 def ai_summarizer(user_text):
     # Get Your own key from Cohere Website 
-    cohere_api_key = "YOU_API_KEY"
+    cohere_api_key = os.getenv("API-KEY")
     co = cohere.Client(cohere_api_key)
     main_post = "Summarize the given Information in points in Markdown format only, its an Order."
     text = main_post + " " + user_text
