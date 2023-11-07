@@ -1,4 +1,11 @@
-  
+## Screenshots
+![Light Mode](images/Light%20Theme%201.jpg)
+
+![Light Mode](images/Light%20Theme%202.jpg)
+
+![Dark Mode](images/Dark%20Theme%201.jpg) 
+
+![Dark Mode](images/Dark%20Theme%202.jpg) 
 
 ## Note
 
@@ -7,12 +14,12 @@ Get your free Trial API key from https://cohere.com/ and put it in the file summ
 This repository contains a Python Flask web application for fetching and summarizing news articles from RSS feeds.
 
 Table of Contents:
-- Features
-- Getting Started
-- Usage
-- Dependencies
-- Contributing
-- License
+- [Features](https://github.com/Quantlight/AI-Powered-News-Summarizer#features)
+- [Getting Started](https://github.com/Quantlight/AI-Powered-News-Summarizer#getting-started)
+- [Usage](https://github.com/Quantlight/AI-Powered-News-Summarizer#usage)
+- [Dependencies](https://github.com/Quantlight/AI-Powered-News-Summarizer#dependencies)
+- [Contributing](https://github.com/Quantlight/AI-Powered-News-Summarizer#contributing)
+- [License](https://github.com/Quantlight/AI-Powered-News-Summarizer#license)
 
 ## Features
 
@@ -24,7 +31,7 @@ Table of Contents:
 
 4. **Database Storage**: It stores the article details, including the title, author, publication date, link, full content, and summarized content, in a SQLite database.
 
-5. **Web Interface**: It offers a web interface using Flask, allowing users to view and interact with the collected news articles.
+5. **Web Interface**: It offers a web interface using Flask, allowing users to view and interact with the collected news articles. It offers Light and Dark Themes and Custom Themes.
 
   
 
