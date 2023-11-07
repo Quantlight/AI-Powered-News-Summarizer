@@ -1,26 +1,27 @@
 /* Global Styles */
 body {
-    font-family: 'Audiowide', sans-serif;
-    
+    font-family: 'Audiowide', sans-serif;    
 }
 
+/* 'project-title' id styles */
 #project-title {
     font-size: 56px;
     font-family: 'Audiowide', sans-serif;
 }
 
+/* Styles for all images */
 img {
     border-radius: 5px;
     display: flex;
-    align-items: center; /* Center vertically */
+    align-items: center;  /* Center the image vertically */
     margin: 1%;
     opacity: 1;
     transition: opacity 0.3s;
-
 }
 
+/* Styles for images within a card */
 .card img {
-    max-width: 100%; /* Ensure the image doesn't exceed the card width */
+    max-width: 100%;  /* Ensure the image doesn't exceed the card width */
 }
 
 /* Light Theme Styles */
@@ -47,7 +48,7 @@ body.dark-theme .container .card.horizontal {
 }
 
 .card.dark-theme a {
-    color: #bbe7fb; /* Change the link color in dark theme */
+    color: #bbe7fb;  /* Change the link color in dark theme */
 }
 
 .dark-theme code {
@@ -58,7 +59,7 @@ body.dark-theme .container .card.horizontal {
 /* Custom Theme Styles */
 body.custom-theme, .card.custom-theme, .card.custom-theme a {
     background-color: #6f00ff;
-    color: #f8f8f8; /* Change the link color in custom theme */
+    color: #f8f8f8;  /* Change the link color in custom theme */
     font-family: 'Poppins', sans-serif;
 }
 
@@ -71,16 +72,15 @@ body.custom-theme .container .card.horizontal {
     font: inherit;
 }
 
-/* Increase the width of the horizontal cards */
+/* Styles to increase the width of the horizontal cards */
 .card-container {
     display: flex;
     flex-wrap: wrap;
 }
 
 #container {
-    width: 100%;
-    padding-top: 70px;
-
+     width: 100%;
+     padding-top: 70px;
 }
 
 /* Navigation Bar Styles */
@@ -102,51 +102,53 @@ body.custom-theme .container .card.horizontal {
 /* Override Bootstrap styles for the custom row and its child elements */
 
 .my-custom-row .card.horizontal {
-    margin-bottom: 20px; /* Add margin between individual cards within the row */
+    margin-bottom: 20px;  /* Add margin between individual cards within the row */
     border-radius: 10px;
 }
 
 .my-custom-row .card-content {
-    padding: 10px; /* Add padding for the card content */
+    padding: 10px;  /* Add padding for the card content */
 }
 
 .my-custom-row p {
-    margin: 5px 0; /* Add margin to separate paragraphs (adjust as needed) */
+    margin: 5px 0;  /* Add margin to separate paragraphs (adjust as needed) */
 }
 
 .my-custom-row a {
-    color: #ff0000; /* Set link color to blue */
-    text-decoration: none; /* Remove underline from links */
+    color: #ff0000;  /* Set link color to blue */
+    text-decoration: none;  /* Remove underline from links */
 }
 
 .my-custom-row a:hover {
-    text-decoration: underline; /* Add underline on hover for links */
+    text-decoration: underline;  /* Add underline on hover for links */
 }
 
 #theme-toggle, #theme-dark, #theme-light, #theme-custom, #summarize-button {
     color: white;
     border-color: #f7f7f7;
     float: left;
-
 }
 
+/* Styles for 'article-title' id */
 #article-title {
     font-size: 40px; 
     font-weight: bold;
     line-height: 42px;
 }
 
+/* Styles for 'article-summary' id */
 #article-summary {
     font-size: 20px;
     font-weight: 400;    
 }
 
+/* Styles for 'article-content' id */
 #article-content {
     font-size: 20px;
     font-weight: 400;    
 }
 
+/* Styles for 'article-author' id */
 #article-author {
     font-style: oblique;
 }
-
