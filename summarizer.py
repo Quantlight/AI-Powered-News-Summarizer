@@ -3,6 +3,7 @@ import feedparser
 from bs4 import BeautifulSoup
 from dateutil.parser import parse
 import cohere
+from cohere.error import *
 import requests
 import sqlite3
 import article_parser
@@ -12,6 +13,7 @@ import sqlite3
 import markdown2
 from dotenv import load_dotenv
 import os
+import time
 
 # Loading dotenv file
 load_dotenv() 
@@ -31,17 +33,26 @@ def ai_summarizer(news_info):
     initial_prompt = "Summarize the given Information in points in Markdown format only, its an Order."
     text = initial_prompt + " " + news_info
 
+    max_attempts = 7
+
     # Requesting AI to summarize the Information and defining the maximun amount of tokens to be recieved.
-    if text:
-        summary = co.summarize(text=text,
+    for attempt in range(1, max_attempts + 1):
+        try:
+            summary = co.summarize(text=text,
                                    model="summarize-xlarge",
                                    length="long",
                                    format="bullets",
-                                   temperature=0.5)
+                                   temperature=0.9)
 
-        return summary.summary
-    else:
-        print("wait")
+            return summary.summary
+        except CohereAPIError as api_error:
+            print(f"Error: {api_error.message}")
+            if attempt < max_attempts:
+                print(f"Retrying attempt {attempt + 1}...")
+                time.sleep(1)  # Adding a small delay before retrying
+            else:
+                print(f"Maximum retry attempts reached. Unable to summarize.")
+                break
 
 def sqlite_data(post):
     conn = sqlite3.connect('summarizer-data.db')
@@ -235,4 +246,3 @@ def main():
     
 if __name__ == '__main__':
     app.run(debug=True)
-
