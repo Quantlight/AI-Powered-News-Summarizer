@@ -33,9 +33,13 @@ def ai_summarizer(news_info):
 
     # Requesting AI to summarize the Information and defining the maximun amount of tokens to be recieved.
     if text:
-        summary = co.generate(model='command', prompt=text, max_tokens=400)
-        # print(summary.generations[0].text)
-        return summary.generations[0].text
+        summary = co.summarize(text=text,
+                                   model="summarize-xlarge",
+                                   length="long",
+                                   format="bullets",
+                                   temperature=0.5)
+
+        return summary.summary
     else:
         print("wait")
 
@@ -231,5 +235,4 @@ def main():
     
 if __name__ == '__main__':
     app.run(debug=True)
-
 
