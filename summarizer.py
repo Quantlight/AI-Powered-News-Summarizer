@@ -193,7 +193,7 @@ def get_data(sort_order):
 
         for row in data:
             full_content = markdown2.markdown(row[2], extras=["markdown-urls"])
-            summarized_content = markdown2.markdown(row[3], extras=["markdown-urls"])
+            summarized_content = markdown2.markdown(row[3] if row[3] is not None else "", extras=["markdown-urls"])
             date_time = datetime.fromisoformat(row[0])
             date_iso = date_time.isoformat()
 
