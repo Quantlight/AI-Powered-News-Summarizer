@@ -29,16 +29,13 @@ def ai_summarizer(news_info):
     cohere_api_key = os.getenv("API-KEY")
     co = cohere.Client(cohere_api_key)
 
-    # Initial prompt sended combined with recieved news information  
-    initial_prompt = "Summarize the given Information in points in Markdown format only, its an Order."
-    text = initial_prompt + " " + news_info
-
+    # Number of times to Retry when there is an error
     max_attempts = 7
 
     # Requesting AI to summarize the Information and defining the maximun amount of tokens to be recieved.
     for attempt in range(1, max_attempts + 1):
         try:
-            summary = co.summarize(text=text,
+            summary = co.summarize(text=news_info,
                                    model="summarize-xlarge",
                                    length="long",
                                    format="bullets",
